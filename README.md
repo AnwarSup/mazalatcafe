@@ -47,8 +47,7 @@ npm start
 └── package.json
 ```
 
-## Admin Credentials
-Default: `admin` / `mazalat2026` (changeable from admin panel Settings)
+Change admin credentials immediately after deployment via the admin panel Settings page.
 
 ## Tech Stack
 - Cloudflare Pages (static hosting)

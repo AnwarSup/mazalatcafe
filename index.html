@@ -1208,6 +1208,12 @@ input,textarea,select{font-family:inherit;font-size:1rem}
     return 'Rp ' + Number(n).toLocaleString('id-ID');
   }
 
+  function escapeHtml(value){
+    var div = document.createElement('div');
+    div.textContent = String(value == null ? '' : value);
+    return div.innerHTML;
+  }
+
   function coffeeIconSVG(){
     return '<svg class="placeholder-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#2c1810" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><path d="M6 2v2"/><path d="M10 2v2"/><path d="M14 2v2"/></svg>';
   }
@@ -1570,7 +1576,11 @@ input,textarea,select{font-family:inherit;font-size:1rem}
              (i.description && i.description.toLowerCase().indexOf(q) !== -1);
     });
     if(!matches.length){
-      searchResults.innerHTML = '<p class="search-no-result">Tidak ditemukan untuk "'+searchInput.value+'"</p>';
+      searchResults.innerHTML = '';
+      var noResult = document.createElement('p');
+      noResult.className = 'search-no-result';
+      noResult.textContent = 'Tidak ditemukan untuk "' + searchInput.value + '"';
+      searchResults.appendChild(noResult);
       return;
     }
     var html = '';
@@ -1656,10 +1666,10 @@ function loadReviews(){
       }
       html += '<div class="review-card">'
         + '<div class="review-header">'
-        + '<span class="review-name">'+r.name+'</span>'
+        + '<span class="review-name">'+escapeHtml(r.name)+'</span>'
         + '<div class="review-stars">'+stars+'</div>'
         + '</div>'
-        + '<p class="review-text">'+(r.comment||r.text||'')+'</p>'
+        + '<p class="review-text">'+escapeHtml(r.comment||r.text||'')+'</p>'
         + (dateStr ? '<p class="review-date">'+dateStr+'</p>' : '')
         + '</div>';
     });

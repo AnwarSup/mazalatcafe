@@ -9,7 +9,8 @@ const { db, raw, rawSave } = require('./db');
 const app = express();
 app.set('etag', false);
 const PORT = process.env.PORT || 3001;
-const JWT_SECRET = process.env.JWT_SECRET || 'mazalat_secret_2026_change_me';
+if (!process.env.JWT_SECRET) throw new Error('JWT_SECRET is required');
+const JWT_SECRET = process.env.JWT_SECRET;
 
 // ── Middleware ──
 app.use(cors());
@@ -32,7 +33,18 @@ const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, path.join(__dirname, '..', 'uploads')),
   filename: (req, file, cb) => cb(null, `menu_${Date.now()}${path.extname(file.originalname)}`)
 });
-const upload = multer({ storage, limits: { fileSize: 5 * 1024 * 1024 } });
+const ALLOWED_IMAGE_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/gif']);
+const upload = multer({
+  storage,
+  limits: { fileSize: 5 * 1024 * 1024 },
+  fileFilter: (req, file, cb) => cb(null, ALLOWED_IMAGE_TYPES.has(file.mimetype))
+});
+
+function escapeHtml(value) {
+  return String(value ?? '').replace(/[<>&"']/g, character => ({
+    '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;', "'": '&#39;'
+  })[character]);
+}
 
 // ── Auth middleware ──
 function auth(req, res, next) {
@@ -104,12 +116,27 @@ app.get("/api/categories", (req, res) => {
 
 // Public order (from customer site)
 app.post('/api/orders', (req, res) => {
-  const { customer_name, customer_phone, customer_note, items, total } = req.body;
+  const { customer_name, customer_phone, customer_note, items } = req.body;
   const d = raw();
+  if (!Array.isArray(items) || !items.length || items.length > 50) {
+    return res.status(400).json({ error: 'Valid order items required' });
+  }
+  let total = 0;
+  const pricedItems = [];
+  for (const submitted of items) {
+    const menuItem = d.menu_items.find(item => item.id === Number(submitted.id) && item.available);
+    const qty = Number(submitted.qty ?? submitted.quantity);
+    if (!menuItem || !Number.isInteger(qty) || qty < 1 || qty > 99) {
+      return res.status(400).json({ error: 'Invalid or unavailable menu item' });
+    }
+    total += Number(menuItem.price) * qty;
+    if (!Number.isSafeInteger(total) || total > 1e8) return res.status(400).json({ error: 'Order total exceeds limit' });
+    pricedItems.push({ id: menuItem.id, name: menuItem.name, price: Number(menuItem.price), qty });
+  }
   const id = d.nextId.orders++;
   d.orders.push({
     id, customer_name: customer_name || '', customer_phone: customer_phone || '',
-    customer_note: customer_note || '', items: JSON.stringify(items),
+    customer_note: customer_note || '', items: JSON.stringify(pricedItems),
     total, status: 'pending', source: 'whatsapp',
     created_at: new Date().toISOString(), updated_at: new Date().toISOString()
   });
@@ -337,7 +364,7 @@ app.post('/api/reviews', (req, res) => {
   if (rating < 1 || rating > 5) return res.status(400).json({ error: 'Rating must be 1-5' });
   const id = d.nextId.reviews++;
   d.reviews.push({
-    id, name, rating, comment, approved: true,
+    id, name: escapeHtml(name), rating, comment: escapeHtml(comment), approved: false,
     created_at: new Date().toISOString()
   });
   rawSave();
@@ -359,9 +386,9 @@ app.put('/api/admin/reviews/:id', auth, (req, res) => {
   if (!review) return res.status(404).json({ error: 'Not found' });
   const { approved, name, rating, comment } = req.body;
   if (approved !== undefined) review.approved = approved;
-  if (name) review.name = name;
+  if (name) review.name = escapeHtml(name);
   if (rating) review.rating = rating;
-  if (comment) review.comment = comment;
+  if (comment) review.comment = escapeHtml(comment);
   rawSave();
   res.json({ ok: true });
 });

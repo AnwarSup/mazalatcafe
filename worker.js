@@ -19,15 +19,51 @@ async function checkAuth(request, DB) {
   const passRow = await DB.prepare("SELECT value FROM settings WHERE key='admin_pass'").first();
   if (!userRow || !passRow || !userRow.value || !passRow.value) return false;
   if (inputUser !== userRow.value) return false;
-  const storedPass = passRow.value;
-  if (inputPass.length !== storedPass.length) return false;
-  let diff = 0;
-  for (let i = 0; i < storedPass.length; i++) {
-    diff |= inputPass.charCodeAt(i) ^ storedPass.charCodeAt(i);
-  }
-  return diff === 0;
+  return verifyPassword(inputPass, passRow.value);
 }
 __name(checkAuth, "checkAuth");
+function bytesToBase64(bytes) {
+  let binary = "";
+  bytes.forEach((byte) => binary += String.fromCharCode(byte));
+  return btoa(binary);
+}
+__name(bytesToBase64, "bytesToBase64");
+function base64ToBytes(value) {
+  return Uint8Array.from(atob(value), (character) => character.charCodeAt(0));
+}
+__name(base64ToBytes, "base64ToBytes");
+async function hashPassword(password) {
+  const salt = crypto.getRandomValues(new Uint8Array(16));
+  const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(password), "PBKDF2", false, ["deriveBits"]);
+  const derived = await crypto.subtle.deriveBits({ name: "PBKDF2", salt, iterations: 1e5, hash: "SHA-256" }, key, 256);
+  return `$pbkdf2$100000$${bytesToBase64(salt)}$${bytesToBase64(new Uint8Array(derived))}`;
+}
+__name(hashPassword, "hashPassword");
+async function verifyPassword(password, stored) {
+  if (!stored.startsWith("$pbkdf2$")) {
+    if (password.length !== stored.length) return false;
+    let legacyDiff = 0;
+    for (let i = 0; i < stored.length; i++) legacyDiff |= password.charCodeAt(i) ^ stored.charCodeAt(i);
+    return legacyDiff === 0;
+  }
+  const parts = stored.split("$");
+  if (parts.length !== 5 || parts[2] !== "100000") return false;
+  let salt;
+  let expected;
+  try {
+    salt = base64ToBytes(parts[3]);
+    expected = base64ToBytes(parts[4]);
+  } catch (_) {
+    return false;
+  }
+  const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(password), "PBKDF2", false, ["deriveBits"]);
+  const actual = new Uint8Array(await crypto.subtle.deriveBits({ name: "PBKDF2", salt, iterations: 1e5, hash: "SHA-256" }, key, expected.byteLength * 8));
+  if (actual.length !== expected.length) return false;
+  let diff = 0;
+  for (let i = 0; i < expected.length; i++) diff |= actual[i] ^ expected[i];
+  return diff === 0;
+}
+__name(verifyPassword, "verifyPassword");
 function unauthorized() {
   return new Response("Unauthorized", {
     status: 401,
@@ -58,14 +94,41 @@ function corsHeaders(request) {
 __name(corsHeaders, "corsHeaders");
 function json(data, status = 200, request) {
   const headers = securityHeaders({ "Content-Type": "application/json", ...corsHeaders(request) });
-  headers["X-RateLimit-Policy"] = "sliding-window";
   return new Response(JSON.stringify(data), { status, headers });
 }
 __name(json, "json");
+async function rateLimit(request, DB, endpoint, limit) {
+  const ip = request.headers.get("CF-Connecting-IP") || request.headers.get("X-Forwarded-For")?.split(",")[0].trim() || "unknown";
+  const now = Math.floor(Date.now() / 1e3);
+  await DB.prepare("CREATE TABLE IF NOT EXISTS rate_limits (ip TEXT NOT NULL, endpoint TEXT NOT NULL, timestamp INTEGER NOT NULL)").run();
+  await DB.prepare("DELETE FROM rate_limits WHERE timestamp < ?").bind(now - 3600).run();
+  const recent = await DB.prepare("SELECT COUNT(*) AS count FROM rate_limits WHERE ip=? AND endpoint=? AND timestamp>=?").bind(ip, endpoint, now - 60).first();
+  if (Number(recent && recent.count) >= limit) {
+    return new Response(JSON.stringify({ error: "Too many requests" }), {
+      status: 429,
+      headers: securityHeaders({ "Content-Type": "application/json", "Retry-After": "60", ...corsHeaders(request) })
+    });
+  }
+  await DB.prepare("INSERT INTO rate_limits (ip, endpoint, timestamp) VALUES (?, ?, ?)").bind(ip, endpoint, now).run();
+  return null;
+}
+__name(rateLimit, "rateLimit");
+function cleanText(value, max) {
+  return String(value ?? "").trim().substring(0, max);
+}
+__name(cleanText, "cleanText");
+function escapeHtml(value) {
+  return String(value ?? "").replace(/[<>&"']/g, (character) => ({
+    "<": "&lt;",
+    ">": "&gt;",
+    "&": "&amp;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[character]);
+}
+__name(escapeHtml, "escapeHtml");
 function clean(value, max) {
-  const raw = String(value ?? "").trim();
-  if (raw.startsWith("data:")) return raw;
-  return raw.replace(/<[^>]*>/g, "").substring(0, max);
+  return escapeHtml(cleanText(value, max));
 }
 __name(clean, "clean");
 function safeUrl(value) {
@@ -133,7 +196,11 @@ var worker_default = {
     }
     try {
       if (path === "/admin" || path === "/admin/") {
-        if (!await checkAuth(request, DB)) return unauthorized();
+        if (!await checkAuth(request, DB)) {
+          const limited = await rateLimit(request, DB, "admin_auth", 10);
+          if (limited) return limited;
+          return unauthorized();
+        }
         return new Response(ADMIN_HTML, {
           headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store", ...securityHeaders() }
         });
@@ -153,6 +220,8 @@ var worker_default = {
         return json(reviews.results);
       }
       if (path === "/api/reviews" && method === "POST") {
+        const limited = await rateLimit(request, DB, "reviews", 5);
+        if (limited) return limited;
         const body = await request.json();
         const name = clean(body.name, 60);
         const rating = parseInt(body.rating) || 0;
@@ -181,6 +250,8 @@ var worker_default = {
         return json(obj);
       }
       if (path === "/api/orders" && method === "POST") {
+        const limited = await rateLimit(request, DB, "orders", 10);
+        if (limited) return limited;
         const body = await request.json();
         const name = clean(body.name, 60);
         const tableNum = clean(body.table, 20);
@@ -215,7 +286,11 @@ var worker_default = {
       }
       if (path === "/api/orders") return methodNotAllowed("POST", request);
       if (path.startsWith("/api/admin/")) {
-        if (!await checkAuth(request, DB)) return unauthorized();
+        if (!await checkAuth(request, DB)) {
+          const limited = await rateLimit(request, DB, "admin_auth", 10);
+          if (limited) return limited;
+          return unauthorized();
+        }
         if (path === "/api/admin/stats") {
           const mc = await DB.prepare("SELECT COUNT(*) as c FROM menu_items").first();
           const cc = await DB.prepare("SELECT COUNT(*) as c FROM categories").first();
@@ -468,9 +543,12 @@ var worker_default = {
         if (path === "/api/admin/settings" && method === "PUT") {
           const body = await request.json();
           const ALLOWED = ["cafe_name", "tagline", "address", "whatsapp", "instagram", "open_hours", "promo_text", "promo_emoji", "promo_active", "admin_user", "admin_pass"];
+          if (Object.prototype.hasOwnProperty.call(body, "admin_pass") && String(body.admin_pass || "").length < 12) {
+            return json({ error: "Admin password must be at least 12 characters" }, 400, request);
+          }
           for (const [key, value] of Object.entries(body)) {
             if (!ALLOWED.includes(key)) continue;
-            const safeVal = String(value || "").replace(/<[^>]*>/g, "").substring(0, 200);
+            const safeVal = key === "admin_pass" ? await hashPassword(String(value || "")) : clean(value, 200);
             await DB.prepare("INSERT INTO settings (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value=?").bind(key, safeVal, safeVal).run();
           }
           return json({ success: true });
@@ -3108,5 +3186,3 @@ export {
   worker_default as default
 };
 //# sourceMappingURL=worker.js.map
-
---2bedf0c7844571068899e26fe1cee7578404edf77260c80bc884d35f3f5e--
