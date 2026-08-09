@@ -1,0 +1,8 @@
+name = "mazalat-api"
+main = "worker.js"
+compatibility_date = "2024-09-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "mazalat-db"
+database_id = "f6edc6bf-35a9-4ad0-a164-840a66763374"

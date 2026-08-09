@@ -1,0 +1,1843 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/png" href="/logo.png">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mazalat · Food & Coffee — Cimaung, Bandung</title>
+<meta name="description" content="Mazalatmu Mazalatku — Kopi artisan, makanan hangat, udara sejuk Bandung Selatan. Coffee Space · Good Activity · Relationship.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cream:#f5efe6;
+  --cream-dark:#ebe3d6;
+  --terracotta:#b85428;
+  --terracotta-dark:#9a4320;
+  --espresso:#2c1810;
+  --espresso-light:#4a3028;
+  --sage:#5a7a62;
+  --sage-light:#6e9178;
+  --copper:#c08552;
+  --white:#ffffff;
+  --shadow:0 4px 24px rgba(44,24,16,0.08);
+  --shadow-lg:0 12px 40px rgba(44,24,16,0.12);
+  --radius:12px;
+  --radius-sm:8px;
+  --transition:0.3s cubic-bezier(0.4,0,0.2,1);
+  --max:1120px;
+  --nav-h:72px;
+  --promo-h:0px;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  background:var(--cream);
+  color:var(--espresso);
+  line-height:1.6;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block}
+a{text-decoration:none;color:inherit}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+ul,ol{list-style:none}
+input,textarea,select{font-family:inherit;font-size:1rem}
+
+.container{width:100%;max-width:var(--max);margin:0 auto;padding:0 20px}
+
+/* PROMO BANNER */
+.promo-banner{
+  position:fixed;top:0;left:0;right:0;z-index:1100;
+  display:none;align-items:center;justify-content:center;
+  min-height:48px;padding:10px 56px 10px 20px;
+  background:var(--terracotta-dark);color:var(--white);
+  box-shadow:0 4px 16px rgba(44,24,16,.22);
+  text-align:center;font-size:.9375rem;font-weight:600;line-height:1.45;
+}
+.promo-banner.visible{display:flex}
+.promo-emoji{margin-right:9px;font-size:1.2em;line-height:1}
+.promo-close{
+  position:absolute;right:14px;top:50%;transform:translateY(-50%);
+  width:34px;height:34px;display:flex;align-items:center;justify-content:center;
+  border-radius:50%;color:var(--white);font-size:1.5rem;line-height:1;
+}
+.promo-close:hover,.promo-close:focus-visible{background:rgba(255,255,255,.16);outline:none}
+
+/* NAV */
+.nav{
+  position:fixed;top:var(--promo-h);left:0;right:0;z-index:1000;
+  height:var(--nav-h);
+  transition:background var(--transition),box-shadow var(--transition),backdrop-filter var(--transition);
+}
+.nav.scrolled{
+  background:rgba(245,239,230,0.95);
+  backdrop-filter:blur(12px);
+  box-shadow:0 1px 20px rgba(44,24,16,0.08);
+}
+.nav-inner{
+  max-width:var(--max);margin:0 auto;padding:0 20px;
+  height:100%;display:flex;align-items:center;justify-content:space-between;gap:24px;
+}
+.nav-logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.75rem;font-weight:600;letter-spacing:0.02em;
+  color:var(--white);transition:color var(--transition);
+  flex-shrink:0;
+}
+.nav.scrolled .nav-logo{color:var(--espresso)}
+.nav-links{display:flex;align-items:center;gap:32px}
+.nav-links a{
+  font-size:0.875rem;font-weight:500;letter-spacing:0.03em;
+  color:rgba(255,255,255,0.85);transition:color var(--transition);
+  position:relative;
+}
+.nav.scrolled .nav-links a{color:var(--espresso)}
+.nav-links a:hover{color:var(--terracotta)}
+.nav.scrolled .nav-links a:hover{color:var(--terracotta)}
+.nav-actions{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.nav-icon-btn{
+  width:40px;height:40px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--white);transition:all var(--transition);
+}
+.nav.scrolled .nav-icon-btn{color:var(--espresso)}
+.nav-icon-btn:hover{background:rgba(184,84,40,0.12);color:var(--terracotta)}
+.nav-wa{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--terracotta);color:var(--white)!important;
+  padding:10px 20px;border-radius:100px;
+  font-size:0.8125rem;font-weight:600;letter-spacing:0.02em;
+  transition:background var(--transition),transform var(--transition);
+}
+.nav-wa:hover{background:var(--terracotta-dark);transform:translateY(-1px)}
+.nav-wa svg{flex-shrink:0}
+.nav-toggle{
+  display:none;width:40px;height:40px;
+  flex-direction:column;align-items:center;justify-content:center;gap:5px;
+}
+.nav-toggle span{
+  display:block;width:20px;height:1.5px;
+  background:var(--white);transition:all var(--transition);
+}
+.nav.scrolled .nav-toggle span{background:var(--espresso)}
+.nav-toggle.active span:nth-child(1){transform:rotate(45deg) translate(4.5px,4.5px)}
+.nav-toggle.active span:nth-child(2){opacity:0}
+.nav-toggle.active span:nth-child(3){transform:rotate(-45deg) translate(4.5px,-4.5px)}
+
+/* HERO */
+.hero{
+  position:relative;width:100%;height:100vh;height:100svh;min-height:600px;
+  display:flex;align-items:center;overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;z-index:0;
+}
+.hero-bg img{
+  width:100%;height:100%;object-fit:cover;object-position:center;
+}
+.hero-overlay{
+  position:absolute;inset:0;z-index:1;
+  background:linear-gradient(135deg,rgba(44,24,16,0.75) 0%,rgba(44,24,16,0.4) 50%,rgba(44,24,16,0.65) 100%),
+              linear-gradient(to top,rgba(44,24,16,0.8) 0%,transparent 50%);
+}
+.hero-content{
+  position:relative;z-index:2;
+  max-width:var(--max);margin:0 auto;padding:0 20px;
+  width:100%;padding-top:var(--nav-h);
+}
+.hero-label{
+  display:inline-block;
+  font-size:0.8125rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--copper);margin-bottom:20px;
+}
+.hero-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2.5rem,5.5vw,4.25rem);
+  font-weight:500;line-height:1.15;color:var(--white);
+  max-width:580px;margin-bottom:20px;
+}
+.hero-title em{font-style:italic;color:var(--copper)}
+.hero-desc{
+  font-size:1.0625rem;font-weight:300;line-height:1.7;
+  color:rgba(255,255,255,0.8);max-width:440px;margin-bottom:36px;
+}
+.hero-btns{display:flex;flex-wrap:wrap;gap:14px}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:14px 28px;border-radius:100px;
+  font-size:0.875rem;font-weight:600;letter-spacing:0.02em;
+  transition:all var(--transition);
+}
+.btn-primary{background:var(--terracotta);color:var(--white)}
+.btn-primary:hover{background:var(--terracotta-dark);transform:translateY(-2px);box-shadow:0 8px 24px rgba(184,84,40,0.35)}
+.btn-outline{
+  background:transparent;color:var(--white);
+  border:1.5px solid rgba(255,255,255,0.4);
+}
+.btn-outline:hover{border-color:var(--white);background:rgba(255,255,255,0.1)}
+.hero-scroll{
+  position:absolute;bottom:32px;left:50%;transform:translateX(-50%);
+  z-index:2;display:flex;flex-direction:column;align-items:center;gap:8px;
+  color:rgba(255,255,255,0.6);font-size:0.6875rem;letter-spacing:0.15em;text-transform:uppercase;
+  animation:bounce 2s ease-in-out infinite;
+}
+.hero-scroll svg{opacity:0.6}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+
+/* SECTIONS COMMON */
+.section{padding:100px 0}
+.section-label{
+  font-size:0.75rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--terracotta);margin-bottom:12px;
+}
+.section-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2rem,4vw,2.75rem);font-weight:500;line-height:1.2;
+  color:var(--espresso);margin-bottom:16px;
+}
+.section-title em{font-style:italic;color:var(--terracotta)}
+.section-desc{
+  font-size:1rem;color:var(--espresso-light);line-height:1.7;max-width:520px;
+}
+
+/* STORY */
+.story-section{position:relative;overflow:hidden}
+.story-section::before{
+  content:'';position:absolute;top:0;left:0;width:340px;height:340px;
+  background:radial-gradient(circle,rgba(184,84,40,0.06) 0%,transparent 70%);
+  pointer-events:none;z-index:0;
+}
+.story-grid{
+  display:grid;grid-template-columns:1fr 1.15fr;gap:56px;align-items:center;
+  position:relative;z-index:1;
+}
+.story-image{
+  position:relative;border-radius:16px;overflow:hidden;
+  aspect-ratio:3/4;
+}
+.story-image img{width:100%;height:100%;object-fit:cover}
+.story-image::after{
+  content:'';position:absolute;inset:0;
+  border:1px solid rgba(192,133,82,0.15);border-radius:16px;pointer-events:none;
+}
+.story-text .section-title{margin-bottom:8px}
+.story-text .section-desc{
+  font-size:0.9375rem;line-height:1.7;color:var(--copper);
+  margin-bottom:24px;font-style:italic;
+}
+.story-paragraphs p{
+  font-size:0.9375rem;line-height:1.85;color:var(--espresso-light);margin-bottom:14px;
+}
+.story-paragraphs p:last-child{margin-bottom:0}
+.story-features{
+  display:flex;flex-direction:column;gap:12px;
+  margin-top:28px;padding-top:24px;
+  border-top:1px solid rgba(44,24,16,0.08);
+}
+.story-feature{
+  display:flex;align-items:center;gap:12px;
+}
+.story-feature-icon{
+  width:36px;height:36px;border-radius:10px;flex-shrink:0;
+  background:linear-gradient(135deg,rgba(184,84,40,0.1),rgba(192,133,82,0.08));
+  display:flex;align-items:center;justify-content:center;
+  color:var(--terracotta);
+}
+.story-feature-icon svg{width:17px;height:17px}
+.story-feature-text{
+  font-size:0.875rem;color:var(--espresso);font-weight:500;
+}
+.story-feature-text span{
+  display:block;font-size:0.75rem;font-weight:400;color:var(--espresso-light);margin-top:1px;
+}
+@media(max-width:768px){
+  .story-grid{grid-template-columns:1fr;gap:36px}
+  .story-image{aspect-ratio:16/10}
+}
+
+/* MENU */
+.menu-header{text-align:center;margin-bottom:48px}
+.menu-header .section-desc{margin:0 auto}
+.menu-cats-wrap{
+  position:relative;display:grid;grid-template-columns:44px minmax(0,1fr) 44px;
+  align-items:start;gap:8px;margin-bottom:4px;
+}
+.menu-cats{
+  display:flex;gap:10px;overflow-x:auto;padding:4px 2px 24px;
+  scrollbar-width:none;-ms-overflow-style:none;
+  -webkit-overflow-scrolling:touch;scroll-behavior:smooth;scroll-snap-type:x proximity;
+}
+.menu-cats::-webkit-scrollbar{display:none}
+.menu-cat-arrow{
+  width:44px;height:44px;margin-top:3px;border-radius:50%;z-index:2;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--white);color:var(--espresso);
+  border:1.5px solid rgba(44,24,16,0.12);box-shadow:var(--shadow);
+  transition:background var(--transition),color var(--transition),opacity var(--transition),transform var(--transition);
+}
+.menu-cat-arrow:hover:not(:disabled){background:var(--terracotta);color:var(--white);transform:scale(1.04)}
+.menu-cat-arrow:focus-visible,.cat-pill:focus-visible{outline:3px solid rgba(184,84,40,.28);outline-offset:2px}
+.menu-cat-arrow:disabled{opacity:.32;cursor:not-allowed;box-shadow:none}
+.menu-cats-wrap.no-overflow .menu-cat-arrow{visibility:hidden}
+.cat-pill{
+  flex-shrink:0;padding:10px 22px;border-radius:100px;
+  font-size:0.8125rem;font-weight:500;
+  background:var(--white);color:var(--espresso);
+  border:1.5px solid rgba(44,24,16,0.1);
+  transition:all var(--transition);white-space:nowrap;scroll-snap-align:start;
+}
+.cat-pill:hover{border-color:var(--terracotta);color:var(--terracotta)}
+.cat-pill.active{background:var(--terracotta);color:var(--white);border-color:var(--terracotta)}
+.menu-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:24px;
+}
+.menu-card{
+  background:var(--white);border-radius:var(--radius);
+  overflow:hidden;box-shadow:var(--shadow);
+  transition:transform var(--transition),box-shadow var(--transition);
+  display:flex;flex-direction:column;
+}
+.menu-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.menu-card-img{
+  width:100%;aspect-ratio:4/5;overflow:hidden;
+  background:linear-gradient(135deg,#e8d5c0 0%,#d4b896 50%,#c4a882 100%);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+}
+.menu-card-img img{width:100%;height:100%;object-fit:cover;object-position:center 60%}
+.menu-card-img .placeholder-icon{opacity:0.35}
+
+/* ─── PHOTO LIGHTBOX ─── */
+.photo-lightbox{position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.92);opacity:0;visibility:hidden;transition:opacity .3s ease, visibility .3s ease;cursor:zoom-out}
+.photo-lightbox.open{opacity:1;visibility:visible}
+.photo-lightbox-inner{position:relative;max-width:92vw;max-height:90vh;display:flex;align-items:center;justify-content:center}
+.photo-lightbox-inner img{max-width:92vw;max-height:88vh;object-fit:contain;border-radius:8px;box-shadow:0 8px 40px rgba(0,0,0,0.5);user-select:none;-webkit-user-drag:none}
+.photo-lightbox-close{position:absolute;top:16px;right:16px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s;color:#fff;font-size:22px;line-height:1;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.photo-lightbox-close:hover{background:rgba(255,255,255,0.25)}
+.photo-lightbox-caption{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:#fff;font-family:'Cormorant Garamond',serif;font-size:1.25rem;text-align:center;text-shadow:0 2px 8px rgba(0,0,0,0.6);max-width:80vw;pointer-events:none}
+.menu-card-img{cursor:pointer;position:relative}
+.menu-card-img.has-photo{cursor:zoom-in}
+.menu-card-img .photo-expand-hint{
+  position:absolute;right:10px;bottom:10px;width:32px;height:32px;
+  border-radius:50%;background:rgba(44,24,16,0.55);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:opacity .2s;pointer-events:none;
+  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+}
+.menu-card-img.has-photo:hover .photo-expand-hint{opacity:1}
+.photo-lightbox-placeholder{
+  width:min(420px,80vw);min-height:280px;border-radius:12px;
+  background:linear-gradient(135deg,#2c1810 0%,#4a3020 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  color:#f5efe6;gap:12px;padding:40px 24px;text-align:center;
+}
+.photo-lightbox-placeholder .lb-placeholder-icon{font-size:3rem;opacity:0.7}
+.photo-lightbox-placeholder .lb-placeholder-name{
+  font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;
+}
+.photo-lightbox-placeholder .lb-placeholder-note{font-size:0.875rem;opacity:0.6}
+
+.menu-card-body{padding:20px;display:flex;flex-direction:column;flex:1}
+.menu-card-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.25rem;font-weight:600;color:var(--espresso);margin-bottom:6px;line-height:1.3;
+}
+.menu-card-desc{
+  font-size:0.8125rem;color:var(--espresso-light);line-height:1.55;
+  margin-bottom:16px;flex:1;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+.menu-card-footer{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.menu-card-price{
+  font-size:1rem;font-weight:700;color:var(--terracotta);
+}
+.btn-add{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:8px 18px;border-radius:100px;
+  background:var(--cream);color:var(--espresso);
+  font-size:0.8125rem;font-weight:600;
+  border:1.5px solid rgba(44,24,16,0.08);
+  transition:all var(--transition);
+}
+.btn-add:hover{background:var(--terracotta);color:var(--white);border-color:var(--terracotta)}
+.menu-empty{
+  text-align:center;padding:60px 20px;color:var(--espresso-light);grid-column:1/-1;
+}
+.menu-loading{
+  text-align:center;padding:60px 20px;color:var(--espresso-light);grid-column:1/-1;
+}
+.spinner{
+  width:36px;height:36px;border:2.5px solid var(--cream-dark);
+  border-top-color:var(--terracotta);border-radius:50%;
+  animation:spin 0.7s linear infinite;margin:0 auto 16px;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+
+
+
+
+
+
+/* REVIEWS */
+.reviews-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;
+}
+.review-cards{display:flex;flex-direction:column;gap:16px}
+.review-card{
+  background:var(--white);border-radius:var(--radius);
+  padding:24px;box-shadow:var(--shadow);
+}
+.review-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.review-name{font-weight:600;font-size:0.9375rem;color:var(--espresso)}
+.review-stars{display:flex;gap:2px}
+.review-stars svg{width:14px;height:14px}
+.review-text{font-size:0.875rem;line-height:1.7;color:var(--espresso-light)}
+.review-date{font-size:0.75rem;color:var(--copper);margin-top:12px}
+.review-form-wrap{
+  background:var(--white);border-radius:var(--radius);
+  padding:32px;box-shadow:var(--shadow);
+  position:sticky;top:calc(var(--nav-h) + 20px);
+}
+.review-form-wrap .section-title{font-size:1.75rem;margin-bottom:8px}
+.review-form-wrap .section-desc{margin-bottom:28px;font-size:0.875rem}
+.form-group{margin-bottom:18px}
+.form-group label{
+  display:block;font-size:0.8125rem;font-weight:600;
+  color:var(--espresso);margin-bottom:8px;letter-spacing:0.02em;
+}
+.form-group input,
+.form-group textarea{
+  width:100%;padding:12px 16px;
+  border:1.5px solid rgba(44,24,16,0.12);border-radius:var(--radius-sm);
+  background:var(--cream);color:var(--espresso);
+  transition:border-color var(--transition);
+  outline:none;
+}
+.form-group input:focus,
+.form-group textarea:focus{border-color:var(--terracotta)}
+.form-group textarea{resize:vertical;min-height:100px}
+.star-selector{display:flex;gap:6px}
+.star-btn{
+  width:36px;height:36px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  transition:all var(--transition);
+  color:rgba(44,24,16,0.2);
+}
+.star-btn:hover,.star-btn.active{color:#e8a838}
+.star-btn svg{width:20px;height:20px}
+.btn-submit{
+  width:100%;padding:14px;border-radius:100px;
+  background:var(--terracotta);color:var(--white);
+  font-size:0.875rem;font-weight:600;
+  transition:all var(--transition);margin-top:8px;
+}
+.btn-submit:hover{background:var(--terracotta-dark)}
+.btn-submit:disabled{opacity:0.6;cursor:not-allowed}
+.form-msg{font-size:0.8125rem;margin-top:12px;text-align:center}
+.form-msg.success{color:var(--sage)}
+.form-msg.error{color:var(--terracotta)}
+
+/* LOCATION */
+.location-section{
+  background:linear-gradient(180deg,var(--cream-dark) 0%,var(--cream) 100%);
+  padding:80px 0;
+}
+.location-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;
+}
+.map-wrap{
+  border-radius:16px;overflow:hidden;
+  box-shadow:0 8px 32px rgba(44,24,16,0.12);
+  aspect-ratio:1/1;
+  position:relative;
+}
+.map-wrap iframe{width:100%;height:100%;border:0;display:block}
+.contact-panel{
+  background:var(--white);border-radius:16px;
+  padding:28px 24px;box-shadow:0 4px 20px rgba(44,24,16,0.08);
+  display:flex;flex-direction:column;gap:0;
+}
+.contact-panel-title{
+  font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;
+  color:var(--espresso);margin-bottom:4px;
+}
+.contact-panel-sub{
+  font-size:0.875rem;color:var(--copper);margin-bottom:20px;
+  padding-bottom:16px;border-bottom:1px solid rgba(184,84,40,0.12);
+}
+.contact-items{display:flex;flex-direction:column;gap:0}
+.contact-row{
+  display:flex;align-items:flex-start;gap:14px;
+  padding:14px 0;
+  border-bottom:1px solid rgba(44,24,16,0.06);
+  transition:background .2s;
+}
+.contact-row:last-child{border-bottom:none}
+.contact-row:hover{background:rgba(184,84,40,0.03)}
+.contact-row-icon{
+  width:38px;height:38px;border-radius:10px;flex-shrink:0;
+  background:linear-gradient(135deg,rgba(184,84,40,0.08),rgba(192,133,82,0.12));
+  display:flex;align-items:center;justify-content:center;
+  color:var(--terracotta);
+}
+.contact-row-icon svg{width:18px;height:18px}
+.contact-row-body h4{
+  font-size:0.75rem;font-weight:600;text-transform:uppercase;
+  letter-spacing:0.04em;color:var(--copper);margin-bottom:2px;
+}
+.contact-row-body p,.contact-row-body a{
+  font-size:0.9375rem;color:var(--espresso);line-height:1.5;font-weight:500;
+}
+.contact-row-body a{color:var(--terracotta);text-decoration:none}
+.contact-row-body a:hover{text-decoration:underline}
+.contact-row-body a.whatsapp-cta{
+  display:inline-flex;align-items:center;gap:6px;
+  background:#25D366;color:#fff;padding:6px 14px;border-radius:20px;
+  font-size:0.8125rem;font-weight:600;margin-top:4px;
+  transition:background .2s;
+}
+.contact-row-body a.whatsapp-cta:hover{background:#128C7E}
+@media(max-width:768px){
+  .location-grid{grid-template-columns:1fr;gap:24px}
+  .map-wrap{aspect-ratio:16/10}
+}
+
+/* FOOTER */
+.footer{
+  background:var(--espresso);color:rgba(255,255,255,0.7);
+  padding:72px 0 0;
+}
+.footer-grid{
+  display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:48px;
+  padding-bottom:48px;
+}
+.footer-brand .nav-logo{color:var(--white);font-size:1.75rem;display:block;margin-bottom:12px}
+.footer-brand p{font-size:0.875rem;line-height:1.7;max-width:280px;color:rgba(255,255,255,0.55)}
+.footer-brand .tagline{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:1rem;color:var(--copper);margin-top:16px;
+}
+.footer h4{
+  font-size:0.75rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--white);margin-bottom:20px;
+}
+.footer-links li{margin-bottom:10px}
+.footer-links a{
+  font-size:0.875rem;color:rgba(255,255,255,0.55);
+  transition:color var(--transition);
+}
+.footer-links a:hover{color:var(--copper)}
+.footer-contact li{
+  display:flex;align-items:flex-start;gap:10px;
+  margin-bottom:14px;font-size:0.875rem;
+}
+.footer-contact svg{flex-shrink:0;margin-top:2px;opacity:0.5}
+.footer-bottom{
+  border-top:1px solid rgba(255,255,255,0.08);
+  padding:24px 0;text-align:center;
+  font-size:0.8125rem;color:rgba(255,255,255,0.35);
+}
+
+/* FLOATING CART BTN */
+.cart-fab{
+  position:fixed;bottom:28px;right:28px;z-index:900;
+  width:56px;height:56px;border-radius:50%;
+  background:var(--sage);color:var(--white);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 6px 24px rgba(90,122,98,0.4);
+  transition:all var(--transition);
+}
+.cart-fab:hover{transform:scale(1.08);background:var(--sage-light)}
+.cart-fab .cart-count{
+  position:absolute;top:-4px;right:-4px;
+  width:22px;height:22px;border-radius:50%;
+  background:var(--terracotta);color:var(--white);
+  font-size:0.6875rem;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transform:scale(0);transition:all var(--transition);
+}
+.cart-fab .cart-count.show{opacity:1;transform:scale(1)}
+
+/* CART PANEL */
+.cart-overlay{
+  position:fixed;inset:0;z-index:1100;
+  background:rgba(44,24,16,0.4);backdrop-filter:blur(4px);
+  opacity:0;visibility:hidden;transition:all var(--transition);
+}
+.cart-overlay.open{opacity:1;visibility:visible}
+.cart-panel{
+  position:fixed;top:0;right:0;bottom:0;z-index:1101;
+  width:100%;max-width:400px;
+  background:var(--cream);
+  transform:translateX(100%);transition:transform var(--transition);
+  display:flex;flex-direction:column;
+  box-shadow:-8px 0 40px rgba(44,24,16,0.15);
+}
+.cart-panel.open{transform:translateX(0)}
+.cart-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:24px 24px 20px;border-bottom:1px solid rgba(44,24,16,0.08);
+}
+.cart-header h3{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.5rem;font-weight:600;
+}
+.cart-close{
+  width:36px;height:36px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--espresso);transition:background var(--transition);
+}
+.cart-close:hover{background:rgba(44,24,16,0.06)}
+.cart-items{flex:1;overflow-y:auto;padding:20px 24px}
+.cart-empty{
+  text-align:center;padding:48px 20px;color:var(--espresso-light);
+}
+.cart-empty svg{margin:0 auto 16px;opacity:0.3}
+.cart-item{
+  display:flex;align-items:center;gap:14px;
+  padding:14px 0;border-bottom:1px solid rgba(44,24,16,0.06);
+}
+.cart-item-info{flex:1;min-width:0}
+.cart-item-name{
+  font-size:0.875rem;font-weight:600;color:var(--espresso);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.cart-item-price{font-size:0.8125rem;color:var(--terracotta);margin-top:2px}
+.cart-item-qty{
+  display:flex;align-items:center;gap:8px;
+}
+.qty-btn{
+  width:28px;height:28px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--white);border:1px solid rgba(44,24,16,0.1);
+  font-size:0.875rem;color:var(--espresso);
+  transition:all var(--transition);
+}
+.qty-btn:hover{background:var(--terracotta);color:var(--white);border-color:var(--terracotta)}
+.qty-num{font-size:0.875rem;font-weight:600;min-width:20px;text-align:center}
+.cart-footer{padding:20px 24px 28px;border-top:1px solid rgba(44,24,16,0.08)}
+.cart-total{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:20px;
+}
+.cart-total span:first-child{font-size:0.875rem;color:var(--espresso-light)}
+.cart-total span:last-child{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.5rem;font-weight:600;color:var(--espresso);
+}
+.cart-footer .form-group{margin-bottom:12px}
+.cart-footer .form-group input{
+  padding:10px 14px;font-size:0.875rem;
+}
+.btn-order{
+  width:100%;padding:14px;border-radius:100px;
+  background:var(--sage);color:var(--white);
+  font-size:0.875rem;font-weight:600;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:all var(--transition);margin-top:8px;
+}
+.btn-order:hover{background:var(--sage-light)}
+.btn-order:disabled{opacity:0.5;cursor:not-allowed}
+
+/* SEARCH OVERLAY */
+.search-overlay{
+  position:fixed;inset:0;z-index:1200;
+  background:rgba(245,239,230,0.97);backdrop-filter:blur(16px);
+  display:flex;flex-direction:column;align-items:center;
+  padding-top:12vh;
+  opacity:0;visibility:hidden;transition:all var(--transition);
+}
+.search-overlay.open{opacity:1;visibility:visible}
+.search-close{
+  position:absolute;top:24px;right:28px;
+  width:44px;height:44px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--espresso);transition:background var(--transition);
+}
+.search-close:hover{background:rgba(44,24,16,0.06)}
+.search-box{width:100%;max-width:600px;padding:0 24px}
+.search-input-wrap{
+  display:flex;align-items:center;gap:14px;
+  border-bottom:2px solid rgba(44,24,16,0.15);
+  padding-bottom:14px;margin-bottom:32px;
+}
+.search-input-wrap svg{flex-shrink:0;color:var(--copper)}
+.search-input-wrap input{
+  flex:1;border:none;background:transparent;outline:none;
+  font-size:1.25rem;color:var(--espresso);font-weight:400;
+}
+.search-input-wrap input::placeholder{color:rgba(44,24,16,0.3)}
+.search-results{
+  display:flex;flex-direction:column;gap:8px;
+  max-height:50vh;overflow-y:auto;
+}
+.search-result-item{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 16px;border-radius:var(--radius-sm);
+  background:var(--white);cursor:pointer;
+  transition:all var(--transition);
+}
+.search-result-item:hover{box-shadow:var(--shadow);transform:translateX(4px)}
+.search-result-name{font-weight:500;font-size:0.9375rem}
+.search-result-price{font-weight:600;color:var(--terracotta);font-size:0.875rem}
+.search-no-result{text-align:center;color:var(--espresso-light);padding:32px;font-size:0.9375rem}
+
+/* MOBILE MENU */
+.mobile-menu{
+  position:fixed;inset:0;z-index:999;
+  background:var(--cream);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;
+  opacity:0;visibility:hidden;transition:all var(--transition);
+}
+.mobile-menu.open{opacity:1;visibility:visible}
+.mobile-menu a{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2rem;font-weight:500;color:var(--espresso);
+  transition:color var(--transition);
+}
+.mobile-menu a:hover{color:var(--terracotta)}
+.mobile-menu .nav-wa{margin-top:12px;font-size:0.9375rem;padding:14px 32px}
+
+/* ANIMATIONS */
+.fade-up{
+  opacity:0;transform:translateY(28px);
+  transition:opacity 0.7s cubic-bezier(0.4,0,0.2,1),transform 0.7s cubic-bezier(0.4,0,0.2,1);
+}
+.fade-up.visible{opacity:1;transform:translateY(0)}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .story-grid{gap:40px}
+  .reviews-grid{gap:32px}
+  .location-grid{gap:28px}
+  .footer-grid{gap:36px}
+}
+@media(max-width:768px){
+  :root{--nav-h:64px}
+  .nav-links{display:none}
+  .nav-wa{display:none}
+  .nav-toggle{display:flex}
+  .section{padding:72px 0}
+  .hero-title{font-size:clamp(2.25rem,8vw,3rem)}
+  .story-grid{grid-template-columns:1fr;gap:36px}
+  .story-image{aspect-ratio:16/11;max-height:360px}
+  .story-stats{grid-template-columns:repeat(3,1fr);gap:12px}
+  .stat-num{font-size:1.5rem}
+  .menu-grid{grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+  
+  .reviews-grid{grid-template-columns:1fr;gap:36px}
+  .review-form-wrap{position:static}
+  .location-grid{grid-template-columns:1fr;gap:28px}
+  .map-wrap{aspect-ratio:16/10}
+  .footer-grid{grid-template-columns:1fr;gap:36px}
+  .cart-fab{bottom:20px;right:20px;width:50px;height:50px}
+}
+@media(max-width:480px){
+  .promo-banner{width:100%;padding:10px 50px 10px 14px;font-size:.8125rem;text-align:left;justify-content:flex-start}
+  .promo-close{right:8px}
+  .container{padding-left:16px;padding-right:16px}
+  .hero-btns{flex-direction:column}
+  .hero-btns .btn{width:100%}
+  .story-stats{grid-template-columns:1fr 1fr 1fr;gap:8px}
+  .stat-num{font-size:1.35rem}
+  .stat-label{font-size:0.6875rem}
+  .menu-grid{grid-template-columns:1fr}
+  .menu-cats-wrap{grid-template-columns:40px minmax(0,1fr) 40px;gap:6px}
+  .menu-cat-arrow{width:40px;height:40px;margin-top:5px}
+  .contact-card{padding:16px}
+}
+@media(max-height:650px) and (orientation:landscape){
+  .hero{min-height:520px;height:auto}
+  .hero-content{padding-top:calc(var(--nav-h) + 48px);padding-bottom:72px}
+  .hero-scroll{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+
+/* GALLERY */
+.gallery{padding:80px 0;background:var(--cream,#f5efe6)}
+.gallery-header{max-width:1120px;margin:0 auto 40px;padding:0 20px;display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.gallery-ig{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:var(--terracotta,#b85428);border:1px solid var(--border,#e8dfd0);padding:10px 18px;border-radius:999px;transition:all .3s}
+.gallery-ig:hover{background:var(--terracotta,#b85428);color:#fff;border-color:var(--terracotta,#b85428)}
+.gallery-ig svg{width:16px;height:16px;stroke:currentColor}
+.gallery-strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;max-width:1120px;margin:0 auto;padding:0 20px}
+.gallery-item{aspect-ratio:4/3;border-radius:8px;overflow:hidden;background:var(--cream-dark,#ebe4d6)}
+.gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.gallery-item:hover img{transform:scale(1.04)}
+@media(max-width:700px){
+  .gallery{padding:48px 0}
+  .gallery-strip{grid-template-columns:1fr 1fr;gap:10px}
+  .gallery-header{margin-bottom:24px}
+}
+
+
+.nav-logo{display:flex;align-items:center;flex:0 0 auto;width:48px;height:48px}
+.nav-logo-img{width:48px;height:48px;aspect-ratio:1;object-fit:cover;border-radius:12px;display:block;transition:width var(--transition),height var(--transition)}
+.nav.scrolled .nav-logo-img{width:40px;height:40px}
+@media(max-width:700px){
+  .nav-logo{width:40px;height:40px}
+  .nav-logo-img,.nav.scrolled .nav-logo-img{width:40px;height:40px}
+}
+
+</style>
+</head>
+<body>
+
+<!-- PROMO -->
+<div class="promo-banner" id="promoBanner" role="status" aria-live="polite" hidden>
+  <span class="promo-emoji" id="promoEmoji" aria-hidden="true"></span>
+  <span id="promoText"></span>
+  <button class="promo-close" id="promoClose" type="button" aria-label="Tutup promo">&times;</button>
+</div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#beranda" class="nav-logo" aria-label="Mazalat"><img src="/logo.png" alt="Mazalat" class="nav-logo-img"></a>
+    <div class="nav-links">
+      <a href="#beranda">Beranda</a>
+      <a href="#menu">Menu</a>
+      <a href="#ulasan">Ulasan</a>
+      <a href="#lokasi">Lokasi</a>
+    </div>
+    <div class="nav-actions">
+      <button class="nav-icon-btn" id="searchBtn" aria-label="Cari menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </button>
+      <a href="https://wa.me/6282116640563" target="_blank" rel="noopener" class="nav-wa">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        WhatsApp
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false" aria-controls="mobileMenu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#beranda" class="mobile-link">Beranda</a>
+  <a href="#menu" class="mobile-link">Menu</a>
+  <a href="#ulasan" class="mobile-link">Ulasan</a>
+  <a href="#lokasi" class="mobile-link">Lokasi</a>
+  <a href="https://wa.me/6282116640563" target="_blank" rel="noopener" class="nav-wa">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+    WhatsApp
+  </a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="beranda">
+  <div class="hero-bg">
+    <img src="/photos/mazalat-photo2.jpg" alt="Area duduk Mazalat — papan kayu COFFEE, lantai beton, tanaman hias" width="1920" height="1080">
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1 class="hero-title">Mazalatmu, <em>Mazalatku</em></h1>
+    <p class="hero-desc">Kopi artisan, makanan hangat, udara sejuk Bandung Selatan — ini tempatnya.</p>
+    <div class="hero-btns">
+      <a href="#menu" class="btn btn-primary">Lihat Menu</a>
+      <a href="https://wa.me/6282116640563" target="_blank" rel="noopener" class="btn btn-outline">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        Pesan
+      </a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Gulir</span>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
+  </div>
+</section>
+
+<!-- STORY -->
+<section class="section story-section" id="cerita">
+  <div class="container">
+    <div class="story-grid">
+      <div class="story-image fade-up">
+        <img src="/photos/mazalat-hero.jpg" alt="Interior counter Mazalat — panel geometris, pencahayaan hangat" width="800" height="1000" loading="lazy">
+      </div>
+      <div class="story-text fade-up">
+        <p class="section-label">Tentang Kami</p>
+        <h2 class="section-title">Cerita <em>Mazalat</em></h2>
+        <p class="section-desc">CoffeeShop · Space · Resto</p>
+        <div class="story-paragraphs">
+          <p><strong>Mazalatmu. Mazalatku.</strong></p>
+          <p>Bukan cuma tempat ngopi. Di Cimaung, Mazalat jadi ruang kerja, tempat kumpul, dan kitchen yang buka sampai malam — semua di satu tempat, di udara sejuk Bandung Selatan.</p>
+          <p>Espresso dari La Pavoni. Menu dari kopi artisan sampai ramen dan nasi goreng. Space yang cukup buat kamu duduk lama tanpa digesa. Ini bukan rest stop. Ini basecamp kamu di Bandung Selatan.</p>
+        </div>
+        <div class="story-features">
+          <div class="story-feature">
+            <div class="story-feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+            </div>
+            <div class="story-feature-text">CoffeeShop<span>La Pavoni · kopi artisan · V60</span></div>
+          </div>
+          <div class="story-feature">
+            <div class="story-feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/></svg>
+            </div>
+            <div class="story-feature-text">Resto<span>Ramen · nasi goreng · dimsum · dessert</span></div>
+          </div>
+          <div class="story-feature">
+            <div class="story-feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div class="story-feature-text">Space<span>Kerja · kumpul · duduk lama tanpa buru-buru</span></div>
+          </div>
+          <div class="story-feature">
+            <div class="story-feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div class="story-feature-text">Cimaung<span>Bandung Selatan · Sen–Jum 10–22 · Sab–Min 10–23</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section class="section" id="menu" style="background:var(--cream-dark)">
+  <div class="container">
+    <div class="menu-header fade-up">
+      <p class="section-label">Pilihan Kami</p>
+      <h2 class="section-title">Hidangan &amp; <em>Racikan</em></h2>
+      <p class="section-desc">Dari kopi artisan hingga hidangan hangat — semua diracik dengan bahan pilihan.</p>
+    </div>
+    <div class="menu-cats-wrap fade-up" id="menuCatsWrap">
+      <button class="menu-cat-arrow" id="menuCatsPrev" type="button" aria-label="Geser kategori ke kiri" aria-controls="menuCats" disabled>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      </button>
+      <div class="menu-cats" id="menuCats" aria-label="Kategori menu"></div>
+      <button class="menu-cat-arrow" id="menuCatsNext" type="button" aria-label="Geser kategori ke kanan" aria-controls="menuCats" disabled>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+      </button>
+    </div>
+    <div class="menu-grid" id="menuGrid">
+      <div class="menu-loading">
+        <div class="spinner"></div>
+        <p>Memuat menu...</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- GALLERY -->
+<section class="gallery" id="gallery">
+  <div class="gallery-header reveal">
+    <div>
+      <div class="section-label"><span class="num">03</span> Galeri</div>
+      <h2 class="section-title">Galeri <em>Mazalat</em></h2>
+    </div>
+    <a href="https://instagram.com/cafe_mazalat" target="_blank" rel="noopener" class="gallery-ig">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+      @cafe_mazalat
+    </a>
+  </div>
+  <div class="gallery-strip" id="galleryStrip">
+    <div class="menu-loading"><div class="spinner"></div><p>Memuat galeri...</p></div>
+  </div>
+</section>
+
+
+<!-- REVIEWS -->
+<section class="section" id="ulasan" style="background:var(--cream-dark)">
+  <div class="container">
+    <div class="menu-header fade-up">
+      <p class="section-label">Kata Mereka</p>
+      <h2 class="section-title">Ulasan <em>Pengunjung</em></h2>
+    </div>
+    <div class="reviews-grid">
+      <div class="review-cards fade-up" id="reviewCards">
+        <div class="menu-loading"><div class="spinner"></div><p>Memuat ulasan...</p></div>
+      </div>
+      <div class="review-form-wrap fade-up">
+        <h3 class="section-title">Tulis Ulasan</h3>
+        <p class="section-desc">Bagikan pengalaman Anda di Mazalat.</p>
+        <form id="reviewForm">
+          <div class="form-group">
+            <label for="reviewName">Nama</label>
+            <input type="text" id="reviewName" name="name" required placeholder="Nama Anda" maxlength="60">
+          </div>
+          <div class="form-group">
+            <label>Rating</label>
+            <div class="star-selector" id="starSelector">
+              <button type="button" class="star-btn" data-rating="1" aria-label="1 bintang">
+                <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              </button>
+              <button type="button" class="star-btn" data-rating="2" aria-label="2 bintang">
+                <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              </button>
+              <button type="button" class="star-btn" data-rating="3" aria-label="3 bintang">
+                <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              </button>
+              <button type="button" class="star-btn" data-rating="4" aria-label="4 bintang">
+                <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              </button>
+              <button type="button" class="star-btn" data-rating="5" aria-label="5 bintang">
+                <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="reviewText">Ulasan</label>
+            <textarea id="reviewText" name="text" required placeholder="Ceritakan pengalaman Anda..." maxlength="500"></textarea>
+          </div>
+          <button type="submit" class="btn-submit" id="reviewSubmit">Kirim Ulasan</button>
+          <p class="form-msg" id="reviewMsg"></p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOCATION -->
+<section class="section location-section" id="lokasi">
+  <div class="container">
+    <div class="menu-header fade-up">
+      <p class="section-label">Kunjungi Kami</p>
+      <h2 class="section-title">Lokasi &amp; <em>Kontak</em></h2>
+    </div>
+    <div class="location-grid">
+      <div class="map-wrap fade-up">
+        <iframe src="https://maps.google.com/maps?q=-7.0851292,107.5614096&z=17&hl=id&output=embed" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Peta lokasi Mazalat Cafe"></iframe>
+      </div>
+      <div class="contact-panel fade-up">
+        <div class="contact-panel-title">Mazalat Food &amp; Coffee</div>
+        <div class="contact-panel-sub">Cimaung, Kabupaten Bandung</div>
+        <div class="contact-items">
+          <div class="contact-row">
+            <div class="contact-row-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div class="contact-row-body">
+              <h4>Alamat</h4>
+              <p>Jl Raya Pangalengan KM 24, Cimaung, Bandung</p>
+            </div>
+          </div>
+          <div class="contact-row">
+            <div class="contact-row-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            </div>
+            <div class="contact-row-body">
+              <h4>Jam Buka</h4>
+              <p>Sen–Jum 10:00–22:00 · Sab–Min 10:00–23:00</p>
+            </div>
+          </div>
+          <div class="contact-row">
+            <div class="contact-row-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            </div>
+            <div class="contact-row-body">
+              <h4>WhatsApp</h4>
+              <a href="https://wa.me/6282116640563" target="_blank" rel="noopener">+62 821-1664-0563</a>
+              <a href="https://wa.me/6282116640563" target="_blank" rel="noopener" class="whatsapp-cta">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                Chat Sekarang
+              </a>
+            </div>
+          </div>
+          <div class="contact-row">
+            <div class="contact-row-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+            </div>
+            <div class="contact-row-body">
+              <h4>Instagram</h4>
+              <a href="https://instagram.com/cafe_mazalat" target="_blank" rel="noopener">@cafe_mazalat</a>
+            </div>
+          </div>
+          <div class="contact-row">
+            <div class="contact-row-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/></svg>
+            </div>
+            <div class="contact-row-body">
+              <h4>GoFood</h4>
+              <a href="https://gofood.link/a/JT2wPgf" target="_blank" rel="noopener">Pesan via GoFood</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="nav-logo">Mazalat</span>
+        <p>Artisan coffee shop dan restoran di Cimaung, Bandung. Tempat hangat untuk kopi, karya, dan kebersamaan.</p>
+        <p class="tagline">Coffee Space · Good Activity · Relationship</p>
+      </div>
+      <div>
+        <h4>Tautan</h4>
+        <ul class="footer-links">
+          <li><a href="#beranda">Beranda</a></li>
+          <li><a href="#cerita">Cerita Kami</a></li>
+          <li><a href="#menu">Menu</a></li>
+          <li><a href="#ulasan">Ulasan</a></li>
+          <li><a href="#lokasi">Lokasi</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Kontak</h4>
+        <ul class="footer-contact">
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span>Jl Raya Pangalengan KM 24, Cimaung, Bandung</span>
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            <span>Sen–Jum 10:00–22:00 · Sab–Min 10:00–23:00</span>
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            <span>+62 821-1664-0563</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Mazalat · Food &amp; Coffee. Seluruh hak cipta dilindungi.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- CART FAB -->
+<button class="cart-fab" id="cartFab" aria-label="Keranjang">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+  <span class="cart-count" id="cartCount">0</span>
+</button>
+
+<!-- CART PANEL -->
+<div class="cart-overlay" id="cartOverlay"></div>
+<div class="cart-panel" id="cartPanel">
+  <div class="cart-header">
+    <h3>Pesanan Anda</h3>
+    <button class="cart-close" id="cartClose" aria-label="Tutup">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+    </button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      <p>Keranjang masih kosong</p>
+    </div>
+  </div>
+  <div class="cart-footer" id="cartFooter" style="display:none">
+    <div class="cart-total">
+      <span>Total</span>
+      <span id="cartTotal">Rp 0</span>
+    </div>
+    <div class="form-group">
+      <input type="text" id="orderName" placeholder="Nama Anda" required>
+    </div>
+    <div class="form-group">
+      <input type="text" id="orderTable" placeholder="Nomor Meja" required>
+    </div>
+    <div class="form-group">
+      <input type="tel" id="orderPhone" placeholder="Nomor WhatsApp (opsional)">
+    </div>
+    <div class="form-group">
+      <textarea id="orderNotes" placeholder="Catatan (opsional, misal: tanpa es, extra sambal, dll)" rows="2"></textarea>
+    </div>
+    <button class="btn-order" id="orderBtn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+      Pesan
+    </button>
+  </div>
+</div>
+
+<!-- SEARCH OVERLAY -->
+<div class="search-overlay" id="searchOverlay">
+  <button class="search-close" id="searchClose" aria-label="Tutup pencarian">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+  </button>
+  <div class="search-box">
+    <div class="search-input-wrap">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" id="searchInput" placeholder="Cari menu..." autocomplete="off">
+    </div>
+    <div class="search-results" id="searchResults"></div>
+  </div>
+</div>
+
+<!-- Photo Lightbox -->
+<div class="photo-lightbox" id="photoLightbox">
+  <div class="photo-lightbox-inner">
+    <button class="photo-lightbox-close" id="photoLightboxClose" aria-label="Tutup">&times;</button>
+    <img id="photoLightboxImg" src="" alt="">
+    <div class="photo-lightbox-placeholder" id="photoLightboxPlaceholder" style="display:none">
+      <div class="lb-placeholder-icon">☕</div>
+      <div class="lb-placeholder-name"></div>
+      <div class="lb-placeholder-note">Foto belum tersedia</div>
+    </div>
+  </div>
+  <div class="photo-lightbox-caption" id="photoLightboxCaption"></div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  /* ─── STATE ─── */
+  let menuData = [];
+  let allItems = [];
+  let cart = JSON.parse(localStorage.getItem('mazalatCart') || '[]');
+  let activeCategory = 'semua';
+  let selectedRating = 0;
+  const WA_NUMBER = '6282116640563';
+
+  /* ─── HELPERS ─── */
+  function formatPrice(n){
+    return 'Rp ' + Number(n).toLocaleString('id-ID');
+  }
+
+  function coffeeIconSVG(){
+    return '<svg class="placeholder-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#2c1810" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><path d="M6 2v2"/><path d="M10 2v2"/><path d="M14 2v2"/></svg>';
+  }
+
+  function starSVG(filled){
+    var c = filled ? '#e8a838' : 'rgba(44,24,16,0.15)';
+    return '<svg width="14" height="14" viewBox="0 0 24 24" fill="'+c+'" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
+  }
+
+  /* ─── NAV SCROLL ─── */
+  var nav = document.getElementById('nav');
+  function onScroll(){
+    if(window.scrollY > 60) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  /* ─── MOBILE MENU ─── */
+  var navToggle = document.getElementById('navToggle');
+  var mobileMenu = document.getElementById('mobileMenu');
+  navToggle.addEventListener('click', function(){
+    navToggle.classList.toggle('active');
+    mobileMenu.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', mobileMenu.classList.contains('open') ? 'true' : 'false');
+    document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+  });
+  document.querySelectorAll('.mobile-link').forEach(function(link){
+    link.addEventListener('click', function(){
+      navToggle.classList.remove('active');
+      mobileMenu.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    });
+  });
+
+  /* ─── FADE-UP ANIMATION ─── */
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('visible'); observer.unobserve(e.target); }
+    });
+  }, {threshold:0.12, rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.fade-up').forEach(function(el){ observer.observe(el); });
+
+  /* ─── FALLBACK MENU ─── */
+  var fallbackMenu = [
+    {id:1,name:'Kopi',slug:'kopi',sort_order:1,items:[
+      {id:1,name:'Espresso',price:18000,description:'Shot espresso murni dari biji dataran tinggi',image_url:null,category_id:1},
+      {id:2,name:'Americano',price:22000,description:'Espresso dengan air panas, rasa jernih dan tegas',image_url:null,category_id:1},
+      {id:3,name:'Caffe Latte',price:28000,description:'Espresso dengan susu steamed yang creamy',image_url:null,category_id:1},
+      {id:4,name:'Cappuccino',price:28000,description:'Keseimbangan sempurna espresso, susu, dan foam',image_url:null,category_id:1},
+      {id:5,name:'Manual Brew V60',price:32000,description:'Seduhan manual menonjolkan karakter biji kopi',image_url:null,category_id:1},
+      {id:6,name:'Mazalat Signature',price:35000,description:'Racikan spesial rumah dengan sentuhan dataran tinggi',image_url:null,category_id:1}
+    ]},
+    {id:2,name:'Non-Kopi',slug:'non-kopi',sort_order:2,items:[
+      {id:7,name:'Hot Chocolate',price:25000,description:'Cokelat panas premium dengan foam lembut',image_url:null,category_id:2},
+      {id:8,name:'Matcha Latte',price:30000,description:'Matcha Jepang dengan susu steamed',image_url:null,category_id:2},
+      {id:9,name:'Lemon Tea',price:18000,description:'Teh segar dengan perasan lemon alami',image_url:null,category_id:2},
+      {id:10,name:'Chocolate Milkshake',price:32000,description:'Milkshake cokelat kental dan menyegarkan',image_url:null,category_id:2}
+    ]},
+    {id:3,name:'Makanan',slug:'makanan',sort_order:3,items:[
+      {id:11,name:'Nasi Goreng Mazalat',price:35000,description:'Nasi goreng spesial dengan bumbu rahasia rumah',image_url:null,category_id:3},
+      {id:12,name:'Chicken Wings',price:38000,description:'Sayap ayam renyah dengan saus pilihan',image_url:null,category_id:3},
+      {id:13,name:'French Fries',price:22000,description:'Kentang goreng renyah dengan seasoning',image_url:null,category_id:3},
+      {id:14,name:'Pasta Aglio e Olio',price:42000,description:'Spaghetti dengan bawang putih, olive oil, dan cabai',image_url:null,category_id:3}
+    ]},
+    {id:4,name:'Cemilan',slug:'cemilan',sort_order:4,items:[
+      {id:15,name:'French Toast',price:28000,description:'Roti panggang manis dengan madu dan butter',image_url:null,category_id:4},
+      {id:16,name:'Pisang Goreng Keju',price:20000,description:'Pisang goreng renyah dengan taburan keju',image_url:null,category_id:4},
+      {id:17,name:'Onion Rings',price:24000,description:'Cincin bawang goreng crispy',image_url:null,category_id:4}
+    ]},
+    {id:5,name:'Dessert',slug:'dessert',sort_order:5,items:[
+      {id:18,name:'Brownies',price:25000,description:'Brownies cokelat fudgy buatan rumah',image_url:null,category_id:5},
+      {id:19,name:'Cheesecake',price:32000,description:'Cheesecake lembut dengan base biskuit',image_url:null,category_id:5},
+      {id:20,name:'Pancake',price:30000,description:'Pancake fluffy dengan maple syrup',image_url:null,category_id:5}
+    ]}
+  ];
+
+  var fallbackReviews = [
+    {name:'Rina S.',rating:5,text:'Suasananya nyaman banget, cocok buat kerja maupun nongkrong. Kopinya mantap, aroma dataran tinggi terasa sekali.',date:'2025-01-15'},
+    {name:'Budi H.',rating:5,text:'Tempat favorit di Cimaung. Manual brew-nya juara, pelayanannya ramah, dan pemandangannya menenangkan.',date:'2025-01-08'},
+    {name:'Dewi A.',rating:4,text:'Makanannya enak, porsinya pas. Nasi goreng Mazalat recommended. Harga masih reasonable untuk kualitasnya.',date:'2024-12-22'},
+    {name:'Andi P.',rating:5,text:'Datang berkali-kali dan tidak pernah kecewa. Interiornya estetik, wifi kencang, cocok buat meeting santai.',date:'2024-12-10'}
+  ];
+
+  /* ─── LOAD MENU ─── */
+  function loadMenu(){
+    fetch('/api/menu')
+      .then(function(r){ if(!r.ok) throw new Error('fail'); return r.json(); })
+      .then(function(data){
+        menuData = Array.isArray(data) ? data : (data.categories || fallbackMenu);
+        menuData.sort(function(a, b){
+          return (Number(a.sort_order) || 0) - (Number(b.sort_order) || 0) || Number(a.id) - Number(b.id);
+        });
+        menuData.forEach(function(cat){
+          if(Array.isArray(cat.items)) cat.items.sort(function(a, b){
+            return (Number(a.sort_order) || 0) - (Number(b.sort_order) || 0) || Number(a.id) - Number(b.id);
+          });
+        });
+        initMenu();
+      })
+      .catch(function(){
+        menuData = fallbackMenu;
+        initMenu();
+      });
+  }
+
+  function initMenu(){
+    allItems = [];
+    menuData.forEach(function(cat){
+      if(cat.items) cat.items.forEach(function(item){
+        item._catName = cat.name;
+        allItems.push(item);
+      });
+    });
+    renderCategories();
+    renderMenuItems('semua');
+  }
+
+  function renderCategories(){
+    var el = document.getElementById('menuCats');
+    var html = '<button class="cat-pill active" data-cat="semua">Semua</button>';
+    menuData.forEach(function(cat){
+      html += '<button class="cat-pill" data-cat="'+cat.slug+'">'+cat.name+'</button>';
+    });
+    el.innerHTML = html;
+    el.querySelectorAll('.cat-pill').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        el.querySelectorAll('.cat-pill').forEach(function(b){ b.classList.remove('active'); });
+        btn.classList.add('active');
+        activeCategory = btn.getAttribute('data-cat');
+        renderMenuItems(activeCategory);
+        btn.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+      });
+    });
+    requestAnimationFrame(updateCategoryArrows);
+  }
+
+  /* Category overflow controls */
+  var menuCats = document.getElementById('menuCats');
+  var menuCatsWrap = document.getElementById('menuCatsWrap');
+  var menuCatsPrev = document.getElementById('menuCatsPrev');
+  var menuCatsNext = document.getElementById('menuCatsNext');
+  function updateCategoryArrows(){
+    var maxScroll = Math.max(0, menuCats.scrollWidth - menuCats.clientWidth);
+    menuCatsWrap.classList.toggle('no-overflow', maxScroll <= 1);
+    menuCatsPrev.disabled = menuCats.scrollLeft <= 1;
+    menuCatsNext.disabled = menuCats.scrollLeft >= maxScroll - 1;
+  }
+  function scrollCategories(direction){
+    menuCats.scrollBy({left:direction * Math.max(180, menuCats.clientWidth * .7),behavior:'smooth'});
+  }
+  menuCatsPrev.addEventListener('click', function(){ scrollCategories(-1); });
+  menuCatsNext.addEventListener('click', function(){ scrollCategories(1); });
+  menuCats.addEventListener('scroll', updateCategoryArrows, {passive:true});
+  window.addEventListener('resize', updateCategoryArrows, {passive:true});
+
+  function renderMenuItems(catSlug){
+    var grid = document.getElementById('menuGrid');
+    var items = catSlug === 'semua' ? allItems : allItems.filter(function(i){
+      var cat = menuData.find(function(c){ return c.slug === catSlug; });
+      return cat && i.category_id === cat.id;
+    });
+    if(!items.length){
+      grid.innerHTML = '<div class="menu-empty"><p>Belum ada item di kategori ini.</p></div>';
+      return;
+    }
+    var html = '';
+    items.forEach(function(item){
+      var hasPhoto = !!item.image_url;
+      var imgHtml = hasPhoto
+        ? '<img src="'+item.image_url+'" alt="'+item.name+'" loading="lazy">'
+        : coffeeIconSVG();
+      var expandIcon = hasPhoto
+        ? '<span class="photo-expand-hint" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></span>'
+        : '';
+      html += '<div class="menu-card">'
+        + '<div class="menu-card-img'+(hasPhoto?' has-photo':'')+'" data-fullsrc="'+(item.image_url||'')+'" data-name="'+item.name.replace(/"/g,'&quot;')+'" role="button" tabindex="0" aria-label="Lihat foto '+item.name+'">'+imgHtml+expandIcon+'</div>'
+        + '<div class="menu-card-body">'
+        + '<h3 class="menu-card-name">'+item.name+'</h3>'
+        + '<p class="menu-card-desc">'+(item.description||'')+'</p>'
+        + '<div class="menu-card-footer">'
+        + '<span class="menu-card-price">'+formatPrice(item.price)+'</span>'
+        + '<button class="btn-add" data-id="'+item.id+'" data-name="'+item.name+'" data-price="'+item.price+'">'
+        + '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>'
+        + ' Tambah</button>'
+        + '</div></div></div>';
+    });
+    grid.innerHTML = html;
+    grid.querySelectorAll('.btn-add').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        addToCart({
+          id: Number(btn.getAttribute('data-id')),
+          name: btn.getAttribute('data-name'),
+          price: Number(btn.getAttribute('data-price'))
+        });
+        btn.textContent = 'Ditambah';
+        setTimeout(function(){
+          btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg> Tambah';
+        }, 800);
+      });
+    });
+  }
+
+  /* ─── CART ─── */
+  function addToCart(item){
+    var existing = cart.find(function(c){ return c.id === item.id; });
+    if(existing) existing.qty += 1;
+    else cart.push({id:item.id, name:item.name, price:item.price, qty:1});
+    updateCartUI();
+  }
+
+  function removeFromCart(id){
+    cart = cart.filter(function(c){ return c.id !== id; });
+    updateCartUI();
+  }
+
+  function changeQty(id, delta){
+    var item = cart.find(function(c){ return c.id === id; });
+    if(!item) return;
+    item.qty += delta;
+    if(item.qty <= 0) removeFromCart(id);
+    else updateCartUI();
+  }
+
+  function getCartTotal(){
+    return cart.reduce(function(s,c){ return s + c.price * c.qty; }, 0);
+  }
+
+  function updateCartUI(){
+    localStorage.setItem('mazalatCart', JSON.stringify(cart));
+    var count = cart.reduce(function(s,c){ return s + c.qty; }, 0);
+    var countEl = document.getElementById('cartCount');
+    countEl.textContent = count;
+    if(count > 0) countEl.classList.add('show');
+    else countEl.classList.remove('show');
+
+    var itemsEl = document.getElementById('cartItems');
+    var footerEl = document.getElementById('cartFooter');
+
+    if(!cart.length){
+      itemsEl.innerHTML = '<div class="cart-empty">'
+        + '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>'
+        + '<p>Keranjang masih kosong</p></div>';
+      footerEl.style.display = 'none';
+      return;
+    }
+
+    var html = '';
+    cart.forEach(function(item){
+      html += '<div class="cart-item">'
+        + '<div class="cart-item-info">'
+        + '<div class="cart-item-name">'+item.name+'</div>'
+        + '<div class="cart-item-price">'+formatPrice(item.price)+'</div>'
+        + '</div>'
+        + '<div class="cart-item-qty">'
+        + '<button class="qty-btn" data-action="minus" data-id="'+item.id+'">'
+        + '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"/></svg>'
+        + '</button>'
+        + '<span class="qty-num">'+item.qty+'</span>'
+        + '<button class="qty-btn" data-action="plus" data-id="'+item.id+'">'
+        + '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>'
+        + '</button>'
+        + '</div></div>';
+    });
+    itemsEl.innerHTML = html;
+    footerEl.style.display = 'block';
+    document.getElementById('cartTotal').textContent = formatPrice(getCartTotal());
+
+    itemsEl.querySelectorAll('.qty-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var id = Number(btn.getAttribute('data-id'));
+        var action = btn.getAttribute('data-action');
+        changeQty(id, action === 'plus' ? 1 : -1);
+      });
+    });
+  }
+
+  /* Cart open/close */
+  var cartFab = document.getElementById('cartFab');
+  var cartPanel = document.getElementById('cartPanel');
+  var cartOverlay = document.getElementById('cartOverlay');
+  var cartClose = document.getElementById('cartClose');
+
+  function openCart(){
+    cartPanel.classList.add('open');
+    cartOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeCart(){
+    cartPanel.classList.remove('open');
+    cartOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  cartFab.addEventListener('click', openCart);
+  cartClose.addEventListener('click', closeCart);
+  cartOverlay.addEventListener('click', closeCart);
+
+  /* Order via WhatsApp */
+  document.getElementById('orderBtn').addEventListener('click', function(){
+    var name = document.getElementById('orderName').value.trim();
+    var table = document.getElementById('orderTable').value.trim();
+    var phone = document.getElementById('orderPhone').value.trim();
+    var notes = document.getElementById('orderNotes').value.trim();
+    if(!name || !table){
+      alert('Mohon isi nama dan nomor meja.');
+      return;
+    }
+    if(!cart.length) return;
+
+    var lines = ['*Pesanan Mazalat Cafe*', '', 'Nama: '+name, 'Meja: '+table];
+    if(phone) lines.push('WhatsApp: '+phone);
+    lines.push('', '*Detail Pesanan:*');
+    cart.forEach(function(item){
+      lines.push('• '+item.name+' x'+item.qty+' — '+formatPrice(item.price * item.qty));
+    });
+    if(notes) lines.push('', 'Catatan: '+notes);
+    lines.push('', '*Total: '+formatPrice(getCartTotal())+'*', '', 'Terima kasih sudah pesan di Mazalat! 🙏');
+    var msg = encodeURIComponent(lines.join('\n'));
+
+    var orderData = {
+      name: name,
+      table: table,
+      phone: phone,
+      items: cart.map(function(c){ return {id:c.id, name:c.name, qty:c.qty}; }),
+      total: getCartTotal(),
+      notes: notes
+    };
+    fetch('/api/orders', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      keepalive:true,
+      body: JSON.stringify(orderData)
+    }).catch(function(){});
+
+    window.open('https://wa.me/'+WA_NUMBER+'?text='+msg, '_blank');
+  });
+
+  /* ─── SEARCH ─── */
+  var searchOverlay = document.getElementById('searchOverlay');
+  var searchInput = document.getElementById('searchInput');
+  var searchResults = document.getElementById('searchResults');
+
+  document.getElementById('searchBtn').addEventListener('click', function(){
+    searchOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(function(){ searchInput.focus(); }, 100);
+  });
+  document.getElementById('searchClose').addEventListener('click', function(){
+    searchOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+    searchInput.value = '';
+    searchResults.innerHTML = '';
+  });
+  searchInput.addEventListener('input', function(){
+    var q = searchInput.value.trim().toLowerCase();
+    if(!q){ searchResults.innerHTML = ''; return; }
+    var matches = allItems.filter(function(i){
+      return i.name.toLowerCase().indexOf(q) !== -1 ||
+             (i.description && i.description.toLowerCase().indexOf(q) !== -1);
+    });
+    if(!matches.length){
+      searchResults.innerHTML = '<p class="search-no-result">Tidak ditemukan untuk "'+searchInput.value+'"</p>';
+      return;
+    }
+    var html = '';
+    matches.forEach(function(item){
+      html += '<div class="search-result-item" data-id="'+item.id+'" data-name="'+item.name+'" data-price="'+item.price+'">'
+        + '<span class="search-result-name">'+item.name+'</span>'
+        + '<span class="search-result-price">'+formatPrice(item.price)+'</span>'
+        + '</div>';
+    });
+    searchResults.innerHTML = html;
+    searchResults.querySelectorAll('.search-result-item').forEach(function(el){
+      el.addEventListener('click', function(){
+        addToCart({
+          id: Number(el.getAttribute('data-id')),
+          name: el.getAttribute('data-name'),
+          price: Number(el.getAttribute('data-price'))
+        });
+        searchOverlay.classList.remove('open');
+        document.body.style.overflow = '';
+        searchInput.value = '';
+        searchResults.innerHTML = '';
+        openCart();
+      });
+    });
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape'){
+      if(searchOverlay.classList.contains('open')){
+        searchOverlay.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+      if(cartPanel.classList.contains('open')) closeCart();
+    }
+  });
+
+  
+  /* --- GALLERY --- */
+  function loadGallery(){
+    fetch('/api/gallery')
+      .then(function(r){ return r.json(); })
+      .then(function(photos){
+        var strip = document.getElementById('galleryStrip');
+        if(!strip) return;
+        if(!photos || !photos.length){
+          strip.innerHTML = '<div class="gallery-item"><img src="/photos/mazalat-hero.jpg" alt="Mazalat" loading="lazy"></div><div class="gallery-item"><img src="/photos/mazalat-photo2.jpg" alt="Mazalat" loading="lazy"></div>';
+          return;
+        }
+        strip.innerHTML = photos.map(function(p){
+          return '<div class="gallery-item"><img src="' + p.url + '" alt="' + (p.alt || 'Mazalat Gallery') + '" loading="lazy"></div>';
+        }).join('');
+      })
+      .catch(function(){
+        var strip = document.getElementById('galleryStrip');
+        if(strip) strip.innerHTML = '<div class="gallery-item"><img src="/photos/mazalat-hero.jpg" alt="Mazalat" loading="lazy"></div><div class="gallery-item"><img src="/photos/mazalat-photo2.jpg" alt="Mazalat" loading="lazy"></div>';
+      });
+  }
+
+  /* --- REVIEWS --- */
+function loadReviews(){
+    fetch('/api/reviews')
+      .then(function(r){ if(!r.ok) throw new Error('fail'); return r.json(); })
+      .then(function(data){ renderReviews(Array.isArray(data) ? data : fallbackReviews); })
+      .catch(function(){ renderReviews(fallbackReviews); });
+  }
+
+  function renderReviews(reviews){
+    var el = document.getElementById('reviewCards');
+    if(!reviews.length){
+      el.innerHTML = '<p style="color:var(--espresso-light)">Belum ada ulasan. Jadilah yang pertama!</p>';
+      return;
+    }
+    var html = '';
+    reviews.slice(0, 6).forEach(function(r){
+      var stars = '';
+      for(var i=1;i<=5;i++) stars += starSVG(i <= r.rating);
+      var dateStr = '';
+      var rdate = r.created_at || r.date || '';
+      if(rdate){
+        try {
+          var d = new Date(rdate);
+          dateStr = d.toLocaleDateString('id-ID', {day:'numeric',month:'long',year:'numeric'});
+        } catch(e){ dateStr = rdate; }
+      }
+      html += '<div class="review-card">'
+        + '<div class="review-header">'
+        + '<span class="review-name">'+r.name+'</span>'
+        + '<div class="review-stars">'+stars+'</div>'
+        + '</div>'
+        + '<p class="review-text">'+(r.comment||r.text||'')+'</p>'
+        + (dateStr ? '<p class="review-date">'+dateStr+'</p>' : '')
+        + '</div>';
+    });
+    el.innerHTML = html;
+  }
+
+  /* Star selector */
+  var starBtns = document.querySelectorAll('.star-btn');
+  starBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      selectedRating = Number(btn.getAttribute('data-rating'));
+      starBtns.forEach(function(b){
+        var r = Number(b.getAttribute('data-rating'));
+        if(r <= selectedRating) b.classList.add('active');
+        else b.classList.remove('active');
+      });
+    });
+  });
+
+  /* Review form submit */
+  document.getElementById('reviewForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var name = document.getElementById('reviewName').value.trim();
+    var text = document.getElementById('reviewText').value.trim();
+    var msgEl = document.getElementById('reviewMsg');
+    var submitBtn = document.getElementById('reviewSubmit');
+
+    if(!selectedRating){
+      msgEl.textContent = 'Mohon pilih rating bintang.';
+      msgEl.className = 'form-msg error';
+      return;
+    }
+    if(!name || !text){
+      msgEl.textContent = 'Mohon lengkapi semua field.';
+      msgEl.className = 'form-msg error';
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Mengirim...';
+
+    var payload = {name:name, rating:selectedRating, comment:text};
+
+    fetch('/api/reviews', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(payload)
+    })
+    .then(function(r){
+      if(!r.ok) throw new Error('fail');
+      return r.json().catch(function(){ return {}; });
+    })
+    .then(function(){
+      msgEl.textContent = 'Terima kasih! Ulasan Anda telah dikirim.';
+      msgEl.className = 'form-msg success';
+      document.getElementById('reviewForm').reset();
+      selectedRating = 0;
+      starBtns.forEach(function(b){ b.classList.remove('active'); });
+      loadReviews();
+    loadGallery();
+})
+    .catch(function(){
+      msgEl.textContent = 'Ulasan belum terkirim. Periksa koneksi Anda lalu coba lagi.';
+      msgEl.className = 'form-msg error';
+    })
+    .finally(function(){
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Kirim Ulasan';
+    });
+  });
+
+
+  /* ─── PHOTO LIGHTBOX ─── */
+  (function(){
+    var lb = document.getElementById('photoLightbox');
+    var lbImg = document.getElementById('photoLightboxImg');
+    var lbCaption = document.getElementById('photoLightboxCaption');
+    var lbPlaceholder = document.getElementById('photoLightboxPlaceholder');
+    if(!lb) return;
+
+    function openLightbox(src, caption){
+      if(src){
+        lbImg.style.display = 'block';
+        lbImg.src = src;
+        if(lbPlaceholder) lbPlaceholder.style.display = 'none';
+      } else {
+        lbImg.style.display = 'none';
+        lbImg.src = '';
+        if(lbPlaceholder){
+          lbPlaceholder.style.display = 'flex';
+          lbPlaceholder.querySelector('.lb-placeholder-name').textContent = caption || '';
+        }
+      }
+      lbCaption.textContent = caption || '';
+      lbImg.alt = caption || 'Foto menu';
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox(){
+      lb.classList.remove('open');
+      document.body.style.overflow = '';
+      lbImg.src = '';
+    }
+    function handleCardClick(el){
+      var cardImg = el.closest ? el.closest('.menu-card-img') : null;
+      if(!cardImg) return false;
+      var src = cardImg.getAttribute('data-fullsrc') || '';
+      var name = cardImg.getAttribute('data-name') || '';
+      if(!name){
+        var card = cardImg.closest('.menu-card');
+        var nameEl = card ? card.querySelector('.menu-card-name') : null;
+        name = nameEl ? nameEl.textContent : '';
+      }
+      // Open for items WITH photo; for no-photo still open placeholder view
+      openLightbox(src, name);
+      return true;
+    }
+    document.addEventListener('click', function(e){
+      // Don't intercept Add button
+      if(e.target.closest && e.target.closest('.btn-add')) return;
+      if(handleCardClick(e.target)){
+        e.preventDefault();
+        e.stopPropagation();
+        return;
+      }
+      if(e.target === lb || (e.target.closest && e.target.closest('.photo-lightbox-close'))){
+        closeLightbox();
+      }
+    }, true);
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && lb.classList.contains('open')) closeLightbox();
+      // Enter/Space on focused card-img
+      if((e.key === 'Enter' || e.key === ' ') && e.target.classList && e.target.classList.contains('menu-card-img')){
+        e.preventDefault();
+        handleCardClick(e.target);
+      }
+    });
+  })();
+
+  /* ─── PROMO SETTINGS ─── */
+  var promoBanner = document.getElementById('promoBanner');
+
+  function syncPromoHeight(){
+    var height = promoBanner.classList.contains('visible') ? promoBanner.offsetHeight : 0;
+    document.documentElement.style.setProperty('--promo-h', height + 'px');
+  }
+
+  function dismissPromo(){
+    promoBanner.classList.remove('visible');
+    promoBanner.hidden = true;
+    syncPromoHeight();
+  }
+
+  document.getElementById('promoClose').addEventListener('click', dismissPromo);
+  window.addEventListener('resize', syncPromoHeight);
+
+  fetch('/api/settings')
+    .then(function(r){ if(!r.ok) throw new Error('fail'); return r.json(); })
+    .then(function(s){
+      var active = s.promo_active === true || s.promo_active === 1 || s.promo_active === '1' || s.promo_active === 'true';
+      var text = String(s.promo_text || '').trim();
+      if(active && text){
+        document.getElementById('promoEmoji').textContent = String(s.promo_emoji || '').trim();
+        document.getElementById('promoText').textContent = text;
+        promoBanner.hidden = false;
+        promoBanner.classList.add('visible');
+        syncPromoHeight();
+      }
+    })
+    .catch(function(){});
+
+  /* ─── INIT ─── */
+  loadMenu();
+  loadReviews();
+  loadGallery();
+
+})();
+</script>
+</body>
+</html>
+<!-- v60 1785668983 -->
